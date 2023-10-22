@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Profile | Firebase Demo</title>
+    <link rel="stylesheet" href="createprofile.css">
+</head>
+<body>
+    <style>
+        body {
+            background-color: rgb(40,40,40);
+            text-align: center;
+            color: rgb(255, 255, 255);
+            font-family: Helvetica,Arial , sans-serif
+        }
+
+        input {
+            border-radius: 10px;
+            border: 10px;
+            border-color: rgb(255, 255, 255);
+            text-align: center;
+        }
+
+        button {
+            width: 100px;
+            height: 30px;
+            border-radius: 10px;
+            border: 0px;
+            -webkit-transition: border-radius 0.5s;
+        }
+
+        button:active{
+            background-color: rgb(200, 200, 200);
+        }
+
+        button:hover{
+            border-radius: 0px;
+            -webkit-transition: border-radius 0.5s;
+        }
+    </style>
+    <h1>Creating a new profile</h1>
+    <hr>
+
+    <p>Username:</p>
+    <input id="username_input" required="true">
+
+    <p>User ID: (leave blank for random)</p>
+    <input id="userid_input" required="false">
+
+    <p>Online status:</p>
+    <select id="status">
+        <option value="true">Online</option>
+        <option value="false">Offline</option>
+    </select>
+
+    <br>
+    <br>
+    <button onclick="buttonPressed()">Submit</button>
+
+    <script>
+        async function buttonPressed(){
+            const username = document.getElementById("username_input").value
+            const userid = document.getElementById("userid_input").value
+            const online = document.getElementById("status").value == "true"
+
+            console.log({username: username, userid: userid, online: online})
+            
+            const req = await fetch("http://127.0.0.1:3000/createuser", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username, 
+                    userid: userid, 
+                    online: online
+                })
+            })
+
+            const rep = await req.json()
+
+            rep.status == 200 ? alert("Successfully created user!") : alert("There was an error while making a request: \n" + rep.message)
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "firebase-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./build/index.js",
+  "scripts": {
+    "start": "tsc && node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "firebase": "^10.5.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.20"
+  }
+}

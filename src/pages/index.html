@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Demo</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <style>
+        body {
+            background-color: rgb(40,40,40);
+            text-align: center;
+            color: rgb(255, 255, 255);
+            font-family: Helvetica,Arial , sans-serif
+        }
+
+        input {
+            border-radius: 10px;
+            border: 10px;
+            border-color: rgb(255, 255, 255);
+            text-align: center;
+        }
+
+        button {
+            width: 100px;
+            height: 20;
+            border-radius: 10px;
+            border: 0px;
+            -webkit-transition: border-radius 0.5s;
+        }
+
+        a{
+            color: white;
+        }
+
+        button:active{
+            background-color: rgb(200, 200, 200);
+        }
+
+        button:hover{
+            border-radius: 0px;
+            -webkit-transition: border-radius 0.5s;
+        }
+    </style>
+    <!-- Page Start -->
+
+    <h1>Firebase Demo - @F3NAI</h1>
+    <br>
+    <p>Input user id to show data:</p>
+    <input id="input_userid">
+    <button id="button_viewdata" onclick="buttonPressed()">View</button>
+    <hr>  
+    <h2 id="userdata_title">View a player to get started!</h2>
+    <p id="username"></p>
+    <p id="userid"></p>
+    <p id="onlinestatus"></p>
+    <hr>
+    <a href="createprofile">Create user profile page</a>
+
+    <!-- Page End -->
+
+    <!-- Program Start -->
+
+    <script>
+        const apiLocation = "127.0.0.1/3000"
+        // Interactive things
+        const textBox = document.getElementById("input_userid")
+        const button = document.getElementById("button_viewdata")
+        // Displays
+        const titledisplay = document.getElementById("userdata_title")
+        const usernameDisplay = document.getElementById("username")
+        const useridDisplay = document.getElementById("userid")
+        const onlinestatusdisplay = document.getElementById("onlinestatus")
+
+        async function buttonPressed()
+        {
+            const API = "127.0.0.1:3000/"
+            const userIdValue = document.getElementById("input_userid").value
+            if (!userIdValue.replace(/\s/g, '').length) return alert("You must input a user ID!")
+
+            const response = await fetch("http://127.0.0.1:3000/getuserdata/" + userIdValue.toString())
+
+            const res = await response.json()
+
+            console.log(res)
+
+            if (res.status !== 200) return alert("There was an error while fetching the data!\n" + res.message)
+
+            // Otherwise, we continue
+
+            onlinestatusdisplay.innerText ="Status: " + res.data.online 
+            useridDisplay.innerText = 'User ID: ' + res.data.userid 
+            usernameDisplay.innerText = 'Username: ' + res.data.username 
+            titledisplay.innerText = `Viewing ${res.data.username}'s profile`
+        }
+
+    </script>
+
+    <!-- Program End -->
+</body>
+</html>
